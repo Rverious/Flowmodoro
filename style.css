@@ -31,3 +31,22 @@ button {
 button:hover {
   background-color: #6366f1; 
 }
+
+timer-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: calc(100vh - 80px);
+  gap: 24px;
+
+
+}
+
+timer-display{
+  font-size: 80px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #e4e4e4;
+}
