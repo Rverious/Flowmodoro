@@ -7,35 +7,34 @@ const timerDisplay = document.getElementById('timer-display');
 const startBtn = document.getElementById('start-btn');
 const coefficientSelect = document.getElementById('coefficient-select');
 
-let appState = "IDLE"; //Idle or counting up or counting down
+let appState = "IDLE"; 
 let totalSeconds = 0;
 let countdownSeconds = 0;
 
-let currentCoefficient = 0.2; //choice later
+let currentCoefficient = 0.2;
 let timerInterval = null;
 
 function handleButtonClick() {
   if (appState === "IDLE") {
     appState = "COUNTING_UP";
-    document.body.style.backgroundColor = "#e77667"
+    document.body.style.backgroundColor = 'var(--color-work)'
     startClockEngine();
     startBtn.textContent = "Finish work";
   } 
   else if (appState === "COUNTING_UP") {
     appState = "COUNTING_DOWN";
-    document.body.style.backgroundColor = "#7bd1b0"
+    document.body.style.backgroundColor = "var(--color-rest)"
     countdownSeconds = Math.ceil(totalSeconds * currentCoefficient) + 1;
     startBtn.textContent = "Start work now"; 
   } 
   else if (appState === "COUNTING_DOWN") {
-    document.body.style.backgroundColor = "#d17bd1"
-    resetTimer();
+    jump();
   }
   else if (appState === "FINISHED"){
     appState = "COUNTING_UP";
-    document.body.style.backgroundColor = "#e77667"
+    document.body.style.backgroundColor = "var(--color-work)"
     startClockEngine();
-    startBtn.textContent = "Rest";
+    startBtn.textContent = "Stop & Rest";
   }
 
 }
@@ -52,13 +51,18 @@ function startClockEngine() {
       updateDisplay(countdownSeconds);
       
       if (countdownSeconds <= 0) {
-        appState = "FINISHED"
-        pingSound.play();
-        resetTimer();
+        clearInterval(timerInterval); 
+        appState = "FINISHED";        
+        totalSeconds = 0;             
+        countdownSeconds = 0;
+        pingSound.play();             
         if (navigator.vibrate) { 
           navigator.vibrate([400, 200, 400]); 
         }
-        startBtn.textContent = "Back to Work";  
+
+        document.body.style.backgroundColor = "var(--color-idle)"
+
+        startBtn.textContent = "Start work"; 
         timerDisplay.textContent = "00:00";
       }
     }
@@ -66,13 +70,32 @@ function startClockEngine() {
   }, 1000); 
 }
 
+function jump() {
+  totalSeconds = 0;
+  countdownSeconds = 0;
+  
+  clearInterval(timerInterval); 
+  
+  
+  appState = "COUNTING_UP";
+  document.body.style.backgroundColor = "var(--color-work)";
+  startBtn.textContent = "Stop & Rest";
+  
+  updateDisplay(0);
+  startClockEngine();
+
+
+}
+
+
+
 function resetTimer() {
   clearInterval(timerInterval); 
   totalSeconds = 0;
   countdownSeconds = 0;
   updateDisplay(0);
   appState = "IDLE"
-  document.body.style.backgroundColor = "#d17bd1"
+  document.body.style.backgroundColor = "var(--color-idle)"
 }
 
 function updateDisplay(secondsToRender) {
@@ -89,7 +112,6 @@ startBtn.addEventListener('click', handleButtonClick);
 coefficientSelect.addEventListener('change', function() {
   
   currentCoefficient = Number(coefficientSelect.value);
-  console.log("Coefficient changed to:", currentCoefficient); // Useful for debugging!
 });
 
 
