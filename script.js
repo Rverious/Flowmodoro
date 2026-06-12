@@ -1,5 +1,11 @@
+const pingSound = new Audio('ping.mp3');
+const infoBtn = document.getElementById('Info'); 
+const infoModal = document.getElementById('info-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const body = document.body;
 const timerDisplay = document.getElementById('timer-display');
 const startBtn = document.getElementById('start-btn');
+const coefficientSelect = document.getElementById('coefficient-select');
 
 let appState = "IDLE"; //Idle or counting up or counting down
 let totalSeconds = 0;
@@ -11,15 +17,27 @@ let timerInterval = null;
 function handleButtonClick() {
   if (appState === "IDLE") {
     appState = "COUNTING_UP";
+    document.body.style.backgroundColor = "#e77667"
     startClockEngine();
+    startBtn.textContent = "Finish work";
   } 
   else if (appState === "COUNTING_UP") {
     appState = "COUNTING_DOWN";
-    countdownSeconds = totalSeconds * currentCoefficient; 
+    document.body.style.backgroundColor = "#7bd1b0"
+    countdownSeconds = Math.ceil(totalSeconds * currentCoefficient) + 1;
+    startBtn.textContent = "Start work now"; 
   } 
   else if (appState === "COUNTING_DOWN") {
+    document.body.style.backgroundColor = "#d17bd1"
     resetTimer();
   }
+  else if (appState === "FINISHED"){
+    appState = "COUNTING_UP";
+    document.body.style.backgroundColor = "#e77667"
+    startClockEngine();
+    startBtn.textContent = "Rest";
+  }
+
 }
 
 function startClockEngine() {
@@ -34,7 +52,14 @@ function startClockEngine() {
       updateDisplay(countdownSeconds);
       
       if (countdownSeconds <= 0) {
+        appState = "FINISHED"
+        pingSound.play();
         resetTimer();
+        if (navigator.vibrate) { 
+          navigator.vibrate([400, 200, 400]); 
+        }
+        startBtn.textContent = "Back to Work";  
+        timerDisplay.textContent = "00:00";
       }
     }
 
@@ -46,6 +71,8 @@ function resetTimer() {
   totalSeconds = 0;
   countdownSeconds = 0;
   updateDisplay(0);
+  appState = "IDLE"
+  document.body.style.backgroundColor = "#d17bd1"
 }
 
 function updateDisplay(secondsToRender) {
@@ -59,3 +86,18 @@ function updateDisplay(secondsToRender) {
 }
 
 startBtn.addEventListener('click', handleButtonClick);
+coefficientSelect.addEventListener('change', function() {
+  
+  currentCoefficient = Number(coefficientSelect.value);
+  console.log("Coefficient changed to:", currentCoefficient); // Useful for debugging!
+});
+
+
+infoBtn.addEventListener('click', function() {
+  infoModal.showModal(); 
+});
+
+
+closeModalBtn.addEventListener('click', function() {
+  infoModal.close(); 
+});

@@ -4,18 +4,40 @@
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flow</title>
+    <title>Flowmodoro</title>
 </head>
 <body>
 <header>
   <h1>Flowmodoro</h1>
-  <button>Info</button>
+  <div class="setting-container">
+  <label for="coefficient-select">Rest Ratio: </label>
+  <select id="coefficient-select">
+    <option value="0.2">1/5</option>
+    <option value="0.33">1/3</option>
+    <option value="0.5">1/2</option>
+    <option value="1.0">1/1</option>
+  </select>
+</div>
+  <button id="Info">Info</button>
 </header>
 
 <main class="timer-section">
   <div id="timer-display">00:00</div>
   <button id="start-btn">Start</button>
+  
 </main>
+<dialog id="info-modal">
+  <h2>How it Works</h2>
+  <hr>
+  <p>This is a reverse-Pomodoro timer designed around your actual work flow:</p>
+  <ul>
+    <li><strong>Step 1:</strong> Choose your rest ratio from the dropdown menu.</li>
+    <li><strong>Step 2:</strong> Hit <strong>Start</strong> and begin your work session. The clock will count up.</li>
+    <li><strong>Step 3:</strong> When you need a break, click <strong>Stop & Rest</strong>.</li>
+    <li><strong>Step 4:</strong> The app instantly calculates your earned break time and begins counting down!</li>
+  </ul>
+  <button id="close-modal-btn">Got it!</button>
+</dialog>
 <script src="script.js"></script>
 </body>
 </html>

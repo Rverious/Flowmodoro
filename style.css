@@ -27,6 +27,13 @@ button {
   transition: background 0.2s ease;
 }
 
+.setting-container {
+  margin-right: auto; 
+  margin-left: 20px; 
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: 1.5px;
+}
 
 button:hover {
   background-color: #6366f1;; 
@@ -55,4 +62,43 @@ button:hover {
   padding: 16px 40px;
   border-radius: 8px;
 
+}
+
+dialog {
+  padding: 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: #1e293b; /* Dark background */
+  color: white;
+  max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Styling the title and lists inside */
+dialog h2 {
+  margin-top: 0;
+  color: #ff007f; /* Matching your pink theme */
+}
+
+dialog ul {
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+/* Styling the special backdrop overlay that darkens the app behind the popup */
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px); /* Adds a modern glassy blur effect */
+}
+
+/* The close button inside the modal */
+#close-modal-btn {
+  background-color: #ff007f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px;
 }
